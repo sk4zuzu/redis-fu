@@ -1,0 +1,8 @@
+# vim:ts=4:sw=4:et:syn=sh:
+dir /redis-fu.Sentinel
+bind 0.0.0.0
+port $SENTINEL_PORT
+sentinel monitor $MASTER_NAME $REDIS_0 $SERVER_PORT $QUORUM
+sentinel down-after-milliseconds $MASTER_NAME $DOWN_AFTER
+sentinel failover-timeout $MASTER_NAME $FAILOVER_TIMEOUT
+sentinel parallel-syncs $MASTER_NAME $PARALLEL_SYNCS
