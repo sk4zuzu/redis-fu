@@ -1,0 +1,17 @@
+# vim:ts=4:sw=4:et:syn=haproxy:
+global
+    daemon
+defaults
+    log global
+    retries 3
+    maxconn 2000
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
+frontend fe
+    mode tcp
+    bind 0.0.0.0:$BACKEND_PORT
+    default_backend be
+backend be
+    mode tcp
+    balance roundrobin
