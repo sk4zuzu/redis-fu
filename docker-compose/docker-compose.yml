@@ -1,0 +1,34 @@
+---
+version: '3.2'
+services:
+  redis:
+    image: redis-fu
+    build:
+      dockerfile: redis-fu.Dockerfile
+      context: ../build/redis-fu/
+      args:
+        SENTINEL_PORT: &SENTINEL_PORT 26379
+    environment:
+      MASTER_NAME: redis-fu
+      SERVER_PORT: 6379
+      SENTINEL_PORT: *SENTINEL_PORT
+      QUORUM: 2
+      DOWN_AFTER: 30000
+      FAILOVER_TIMEOUT: 60000
+      PARALLEL_SYNCS: 1
+      REDIS_0: redisfu_redis_1
+  haproxy:
+    image: haproxy-fu
+    build:
+      dockerfile: haproxy-fu.Dockerfile
+      context: ../build/haproxy-fu/
+    environment:
+      BACKEND_SERVICE: redis
+      BACKEND_PORT: *SENTINEL_PORT
+    ports:
+      - target: *SENTINEL_PORT
+        published: *SENTINEL_PORT
+        protocol: tcp
+    depends_on:
+      - redis
+# vim:ts=2:sw=2:et:
