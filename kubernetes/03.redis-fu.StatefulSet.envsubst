@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: redis
+  labels: &labels
+    name: redis-fu
+spec:
+  replicas: 3
+  serviceName: redis
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+        - name: redis
+          image: redis-fu
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: configmap
+  selector:
+    matchLabels: *labels
+# vim:ts=2:sw=2:et:syn=yaml:

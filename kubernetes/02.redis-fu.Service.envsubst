@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels: &labels
+    name: redis-fu
+spec:
+  ports:
+    - name: redis
+      port: $SERVER_PORT
+    - name: redis-sentinel
+      port: $SENTINEL_PORT
+  clusterIP: None
+  selector: *labels
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-sentinel
+  labels: &labels
+    name: redis-fu
+spec:
+  ports:
+    - name: redis-sentinel
+      port: $SENTINEL_PORT
+      targetPort: $SENTINEL_PORT
+  selector: *labels
+# vim:ts=2:sw=2:et:syn=yaml:

@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+  labels:
+    name: redis-fu
+data:
+  MASTER_NAME: redis-fu
+  SERVER_PORT: '$SERVER_PORT'
+  SENTINEL_PORT: '$SENTINEL_PORT'
+  QUORUM: '2'
+  DOWN_AFTER: '30000'
+  FAILOVER_TIMEOUT: '60000'
+  PARALLEL_SYNCS: '1'
+  REDIS_0: redis-0.redis.default.svc.cluster.local
+# vim:ts=2:sw=2:et:syn=yaml:
